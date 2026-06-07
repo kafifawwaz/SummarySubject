@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📚 Rangkuman Belajar</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap');
+
+  :root {
+    --bg: #0f0f13;
+    --surface: #16161d;
+    --card: #1c1c26;
+    --border: #2a2a3a;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --accent1: #7c6af7;  /* purple - OS */
+    --accent2: #f76a6a;  /* red - security */
+    --accent3: #6af7c0;  /* teal - wireless */
+    --accent4: #f7c96a;  /* gold - cloud */
+    --accent5: #6aaff7;  /* blue - IoT */
+    --accent6: #f76ac4;  /* pink - blockchain */
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+    --serif: 'DM Serif Display', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .hero {
+    padding: 60px 40px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent4);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--accent1); }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 16px;
+    max-width: 600px;
+    margin-bottom: 32px;
+  }
+
+  /* Navigation tabs */
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 40px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 100;
+    padding-top: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover, .tab-btn.active { color: var(--text); }
+  .tab-btn[data-color="os"].active { background: #1a1530; border-color: var(--accent1); color: var(--accent1); }
+  .tab-btn[data-color="sec"].active { background: #1f1020; border-color: var(--accent2); color: var(--accent2); }
+  .tab-btn[data-color="wifi"].active { background: #0f1f1a; border-color: var(--accent3); color: var(--accent3); }
+  .tab-btn[data-color="cloud"].active { background: #1f1a0a; border-color: var(--accent4); color: var(--accent4); }
+  .tab-btn[data-color="iot"].active { background: #0a1525; border-color: var(--accent5); color: var(--accent5); }
+  .tab-btn[data-color="bc"].active { background: #1f0f1a; border-color: var(--accent6); color: var(--accent6); }
+
+  /* Main layout */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 40px;
+  }
+
+  .chapter { display: none; }
+  .chapter.active { display: block; }
+
+  /* Chapter header */
+  .ch-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .ch-num {
+    font-family: var(--mono);
+    font-size: 72px;
+    font-weight: 700;
+    line-height: 1;
+    opacity: 0.15;
+    min-width: 80px;
+  }
+  .ch-info { flex: 1; }
+  .ch-info h2 {
+    font-family: var(--serif);
+    font-size: 38px;
+    margin-bottom: 8px;
+  }
+  .ch-info p { color: var(--muted); font-size: 15px; max-width: 600px; }
+
+  /* Analogy box */
+  .analogy {
+    background: linear-gradient(135deg, rgba(124,106,247,0.08), rgba(124,106,247,0.02));
+    border: 1px solid rgba(124,106,247,0.2);
+    border-left: 3px solid var(--accent1);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+  .analogy.red { background: linear-gradient(135deg, rgba(247,106,106,0.08), rgba(247,106,106,0.02)); border-color: rgba(247,106,106,0.2); border-left-color: var(--accent2); }
+  .analogy.teal { background: linear-gradient(135deg, rgba(106,247,192,0.08), rgba(106,247,192,0.02)); border-color: rgba(106,247,192,0.2); border-left-color: var(--accent3); }
+  .analogy.gold { background: linear-gradient(135deg, rgba(247,201,106,0.08), rgba(247,201,106,0.02)); border-color: rgba(247,201,106,0.2); border-left-color: var(--accent4); }
+  .analogy.blue { background: linear-gradient(135deg, rgba(106,175,247,0.08), rgba(106,175,247,0.02)); border-color: rgba(106,175,247,0.2); border-left-color: var(--accent5); }
+  .analogy.pink { background: linear-gradient(135deg, rgba(247,106,196,0.08), rgba(247,106,196,0.02)); border-color: rgba(247,106,196,0.2); border-left-color: var(--accent6); }
+  .analogy-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent1);
+    margin-bottom: 8px;
+  }
+  .analogy.red .analogy-label { color: var(--accent2); }
+  .analogy.teal .analogy-label { color: var(--accent3); }
+  .analogy.gold .analogy-label { color: var(--accent4); }
+  .analogy.blue .analogy-label { color: var(--accent5); }
+  .analogy.pink .analogy-label { color: var(--accent6); }
+
+  /* Section cards */
+  .section-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--accent1); }
+  .card.red:hover { border-color: var(--accent2); }
+  .card.teal:hover { border-color: var(--accent3); }
+  .card.gold:hover { border-color: var(--accent4); }
+  .card.blue:hover { border-color: var(--accent5); }
+  .card.pink:hover { border-color: var(--accent6); }
+
+  .card-icon { font-size: 24px; margin-bottom: 12px; }
+  .card h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Key concepts list */
+  .key-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .key-list li {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .key-list li::before {
+    content: '→';
+    color: var(--accent1);
+    font-family: var(--mono);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .li-sec li::before { color: var(--accent2); }
+  .li-teal li::before { color: var(--accent3); }
+  .li-gold li::before { color: var(--accent4); }
+  .li-blue li::before { color: var(--accent5); }
+  .li-pink li::before { color: var(--accent6); }
+
+  strong { color: var(--text); font-weight: 600; }
+  em { color: var(--muted); font-style: normal; font-size: 13px; }
+
+  /* Table */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 16px 0 32px;
+  }
+  .compare-table th {
+    background: var(--card);
+    padding: 12px 16px;
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .compare-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .compare-table tr:hover td { background: var(--card); }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 28px;
+    margin: 16px 0 32px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent4);
+    border: 2px solid var(--bg);
+  }
+  .tl-year {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent4);
+    margin-bottom: 2px;
+  }
+
+  /* Tag pills */
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .tag {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: var(--mono);
+    font-size: 11px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .tag.purple { border-color: rgba(124,106,247,0.4); color: var(--accent1); background: rgba(124,106,247,0.05); }
+  .tag.red { border-color: rgba(247,106,106,0.4); color: var(--accent2); background: rgba(247,106,106,0.05); }
+  .tag.teal { border-color: rgba(106,247,192,0.4); color: var(--accent3); background: rgba(106,247,192,0.05); }
+  .tag.gold { border-color: rgba(247,201,106,0.4); color: var(--accent4); background: rgba(247,201,106,0.05); }
+  .tag.blue { border-color: rgba(106,175,247,0.4); color: var(--accent5); background: rgba(106,175,247,0.05); }
+  .tag.pink { border-color: rgba(247,106,196,0.4); color: var(--accent6); background: rgba(247,106,196,0.05); }
+
+  /* Quick recap box */
+  .recap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+  .recap h3 {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent4);
+    margin-bottom: 16px;
+  }
+  .recap ol { padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+
+  /* Progress tracker */
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 8px 0 24px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent1), var(--accent6));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* Footer nav */
+  .ch-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--accent1); color: var(--accent1); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+  /* Code block */
+  .code-block {
+    background: #0a0a10;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--accent3);
+    margin: 16px 0;
+    overflow-x: auto;
+    line-height: 1.8;
+  }
+
+  /* Flow diagram text-based */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    margin: 16px 0;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .flow-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+  .flow-arrow {
+    color: var(--muted);
+    padding: 0 8px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .hero, .main { padding-left: 20px; padding-right: 20px; }
+    .tabs { padding-left: 20px; padding-right: 20px; }
+    .ch-num { font-size: 48px; }
+    .ch-info h2 { font-size: 28px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">UAS & QUIZ Preparation</div>
+  <h1>Rangkuman<br><span>IT Infrastructure</span></h1>
+  <p class="hero-sub">Materi dari Wireless - Blockchain, udah include analogi / gambaran.</p>
+  <div class="tags">
+    <span class="tag purple">Operating Systems</span>
+    <span class="tag red">Security in Networks</span>
+    <span class="tag teal">Wireless & Mobile</span>
+    <span class="tag gold">Cloud Computing</span>
+    <span class="tag blue">IoT</span>
+    <span class="tag pink">Blockchain</span>
+  </div>
+</div>
+
+<div class="tabs" id="tabsRow">
+  <button class="tab-btn active" data-color="os" onclick="showChapter('os',this)">01 · OS</button>
+  <button class="tab-btn" data-color="sec" onclick="showChapter('sec',this)">02 · Security</button>
+  <button class="tab-btn" data-color="wifi" onclick="showChapter('wifi',this)">03 · Wireless</button>
+  <button class="tab-btn" data-color="cloud" onclick="showChapter('cloud',this)">04 · Cloud</button>
+  <button class="tab-btn" data-color="iot" onclick="showChapter('iot',this)">05 · IoT</button>
+  <button class="tab-btn" data-color="bc" onclick="showChapter('bc',this)">06 · Blockchain</button>
+</div>
+
+<div class="main">
+
+<!-- ===================== CHAPTER 1: OS ===================== -->
+<div class="chapter active" id="ch-os">
+  <div class="ch-header">
+    <div class="ch-num">01</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent1)">Operating Systems</h2>
+      <p>Perantara antara hardware dan pengguna. OS mengatur semua sumber daya komputer agar bisa digunakan secara efisien.</p>
+    </div>
+  </div>
+
+  <div class="analogy">
+    <div class="analogy-label">🏠 Analogi</div>
+    <strong>OS itu seperti manajer hotel.</strong> Tamu (aplikasi) datang minta kamar (RAM), makan (CPU), listrik (I/O). Manajer (OS) mengatur siapa dapat apa, kapan, dan berapa lama — tanpa tamu perlu tahu cara kerja kelistrikan hotelnya.
+  </div>
+
+  <div class="section-title">Konsep Utama</div>
+  <ul class="key-list">
+    <li><div><strong>Apa itu OS?</strong> Program yang jadi perantara user ↔ hardware. Tujuan: eksekusi program, mudah dipakai, efisien gunakan hardware.</div></li>
+    <li><div><strong>4 Komponen Sistem Komputer:</strong> Hardware → OS → Application Programs → Users.</div></li>
+    <li><div><strong>OS sebagai Resource Allocator:</strong> Mengatur semua resource dan menentukan siapa yang dapat resource ketika ada konflik.</div></li>
+    <li><div><strong>Kernel:</strong> Satu-satunya program yang berjalan <em>terus-menerus</em> di komputer. Semua yang lain adalah system/application program.</div></li>
+  </ul>
+
+  <div class="section-title">Boot Process & Interrupt</div>
+  <div class="flow">
+    <span class="flow-step">Power ON</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Bootstrap (ROM/EPROM)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Load Kernel</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">OS Running</span>
+  </div>
+  <p style="font-size:14px;color:var(--muted);margin-top:8px;"><strong style="color:var(--text)">Interrupt</strong> = sinyal dari hardware/software yang "mengganggu" CPU agar ditangani. OS adalah interrupt-driven — ia hanya bekerja saat ada yang minta perhatian. Trap/Exception = interrupt dari software (contoh: divide by zero).</p>
+
+  <div class="section-title">Memory & Storage Hierarchy</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h4>Registers (Tercepat)</h4>
+      <p>Di dalam CPU. Kapasitas kecil banget, tapi akses dalam nanosecond. Volatile (hilang saat mati).</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🗄️</div>
+      <h4>Cache</h4>
+      <p>Penyimpanan perantara yang menyimpan salinan data dari main memory. Prinsip: cek cache dulu sebelum ke main memory.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💾</div>
+      <h4>Main Memory (RAM)</h4>
+      <p>Satu-satunya storage yang bisa diakses CPU secara langsung. Random access. Volatile.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">💿</div>
+      <h4>Secondary Storage (HDD/SSD)</h4>
+      <p>Besar, non-volatile, lebih lambat. SSD lebih cepat dari HDD tapi lebih mahal.</p>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--muted)">Urutan dari <em>terlambat ke tercepat</em>: Magnetic Tape → Optical Disk → HDD → Nonvolatile Memory (SSD) → Main Memory → Cache → Registers.</p>
+
+  <div class="section-title">Process & Memory Management</div>
+  <ul class="key-list">
+    <li><div><strong>Process vs Program:</strong> Program = pasif (file di disk). Process = aktif (program yang sedang dieksekusi). Process butuh CPU, memory, I/O, files.</div></li>
+    <li><div><strong>Multiprogramming:</strong> Beberapa job di memory sekaligus. Saat satu job tunggu I/O, CPU switch ke job lain. CPU tidak pernah nganggur.</div></li>
+    <li><div><strong>Timesharing/Multitasking:</strong> CPU switch antar job sangat cepat sehingga user merasa interaktif. Response time &lt; 1 detik.</div></li>
+    <li><div><strong>Dual-Mode Operation:</strong> User mode vs Kernel mode. Mode bit di hardware. Instruksi privileged hanya di kernel mode. Proteksi OS dari program nakal.</div></li>
+    <li><div><strong>Virtual Memory:</strong> Proses bisa berjalan walau tidak semua bagiannya ada di RAM. Sisanya di swap space di disk.</div></li>
+  </ul>
+
+  <div class="section-title">Computer Architecture</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">🖥️</div>
+      <h4>Symmetric Multiprocessing (SMP)</h4>
+      <p>Semua CPU setara, menjalankan semua task. Lebih umum dipakai. Throughput meningkat seiring jumlah CPU.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔗</div>
+      <h4>Clustered Systems</h4>
+      <p>Beberapa sistem bekerja bersama via SAN (Storage Area Network). Untuk high availability — kalau satu mati, yang lain lanjutkan.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🎮</div>
+      <h4>Virtualization</h4>
+      <p>OS bisa jalankan OS lain di dalamnya (VM). VMM (Virtual Machine Manager) seperti VMware, VirtualBox. Dasar dari Cloud Computing.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Computing Environments</div>
+  <table class="compare-table">
+    <tr><th>Jenis</th><th>Deskripsi</th><th>Contoh</th></tr>
+    <tr><td>Traditional</td><td>Stand-alone, terhubung internet via firewall</td><td>PC desktop di kantor</td></tr>
+    <tr><td>Mobile</td><td>Smartphone/tablet. Ada GPS, gyroscope. iOS & Android</td><td>iPhone, Samsung Galaxy</td></tr>
+    <tr><td>Distributed</td><td>Kumpulan sistem heterogen yang terhubung jaringan (LAN/WAN/MAN)</td><td>Internet, intranet kampus</td></tr>
+    <tr><td>Client-Server</td><td>Client minta layanan ke server. Server compute/file</td><td>Browser (client) ↔ Web server</td></tr>
+    <tr><td>Peer-to-Peer</td><td>Semua node bisa jadi client DAN server</td><td>BitTorrent, Skype</td></tr>
+    <tr><td>Cloud</td><td>Extension dari virtualization. SaaS/PaaS/IaaS via internet</td><td>AWS, Google Cloud</td></tr>
+  </table>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>OS = resource allocator + control program. Kernel = satu program yang always running.</li>
+      <li>Boot: Bootstrap Program (ROM) → Load Kernel. OS adalah interrupt-driven.</li>
+      <li>Hirarki storage: Registers paling cepat, Magnetic Tape paling lambat.</li>
+      <li>Multiprogramming = CPU selalu sibuk. Timesharing = user merasa interaktif.</li>
+      <li>Dual-mode (user/kernel mode) melindungi OS dari error/abuse program.</li>
+      <li>Virtualization = dasar Cloud Computing.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===================== CHAPTER 2: SECURITY ===================== -->
+<div class="chapter" id="ch-sec">
+  <div class="ch-header">
+    <div class="ch-num">02</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent2)">Security in Computer Networks</h2>
+      <p>Bagaimana komunikasi digital dijaga dari mata-mata, manipulasi, dan serangan.</p>
+    </div>
+  </div>
+
+  <div class="analogy red">
+    <div class="analogy-label">📮 Analogi</div>
+    <strong>Network security seperti pengiriman surat rahasia.</strong> Alice = pengirim. Bob = penerima. Trudy = penyusup yang bisa mencuri, memalsukan, atau mengubah surat. Kita butuh: amplop yang tidak bisa dibuka (enkripsi), stempel asli (autentikasi), dan segel anti-rusak (message integrity).
+  </div>
+
+  <div class="section-title">4 Pilar Network Security</div>
+  <div class="cards">
+    <div class="card red">
+      <div class="card-icon">🔒</div>
+      <h4>Confidentiality</h4>
+      <p>Hanya pengirim & penerima yang paham isi pesan. Dicapai dengan <strong>enkripsi</strong>. Trudy bisa lihat ciphertext tapi tidak bisa baca.</p>
+    </div>
+    <div class="card red">
+      <div class="card-icon">✅</div>
+      <h4>Authentication</h4>
+      <p>Pengirim dan penerima bisa konfirmasi identitas satu sama lain. "Kamu benar-benar Alice?"</p>
+    </div>
+    <div class="card red">
+      <div class="card-icon">🛡️</div>
+      <h4>Message Integrity</h4>
+      <p>Pesan tidak berubah saat transit. Pakai digital signature / hash function.</p>
+    </div>
+    <div class="card red">
+      <div class="card-icon">🌐</div>
+      <h4>Availability</h4>
+      <p>Layanan tetap bisa diakses. Mencegah DoS (Denial of Service) attack.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Kriptografi</div>
+  <div class="analogy red">
+    <div class="analogy-label">🔑 Analogi Symmetric vs Asymmetric</div>
+    <strong>Symmetric</strong> = satu kunci gembok yang sama antara Alice dan Bob (tapi gimana cara sharingnya?). <strong>Asymmetric (Public Key)</strong> = Bob pasang kotak surat terbuka (public key) di depan rumah. Siapa saja bisa masukin surat. Tapi cuma Bob yang punya kuncinya untuk buka kotak itu (private key).
+  </div>
+
+  <table class="compare-table">
+    <tr><th>Enkripsi</th><th>Kunci</th><th>Kecepatan</th><th>Contoh</th></tr>
+    <tr><td><strong>Symmetric</strong></td><td>Sama untuk enkripsi & dekripsi</td><td>Cepat (100x RSA)</td><td>DES, 3DES, AES</td></tr>
+    <tr><td><strong>Asymmetric (Public Key)</strong></td><td>Public key (enkripsi), Private key (dekripsi)</td><td>Lambat</td><td>RSA, Diffie-Hellman</td></tr>
+  </table>
+
+  <ul class="key-list li-sec">
+    <li><div><strong>DES (Data Encryption Standard):</strong> 56-bit key. Bisa di-brute force dalam sehari → tidak aman.</div></li>
+    <li><div><strong>3DES:</strong> DES dijalankan 3x dengan 3 key berbeda. Lebih aman.</div></li>
+    <li><div><strong>AES (Advanced Encryption Standard):</strong> 128-bit blocks, key 128/192/256 bit. Brute force butuh 149 TRILIUN tahun.</div></li>
+    <li><div><strong>RSA:</strong> Pakai bilangan prima besar. Public key = (n, e). Private key = (n, d). Keamanan berbasis sulitnya faktorisasi bilangan besar.</div></li>
+  </ul>
+
+  <div class="section-title">Authentication Protocols (ap1.0 → ap5.0)</div>
+  <ul class="key-list li-sec">
+    <li><div><strong>ap1.0:</strong> Alice bilang "I am Alice" → Gagal: Trudy bisa claim hal yang sama.</div></li>
+    <li><div><strong>ap2.0:</strong> Alice kirim IP address-nya → Gagal: IP spoofing bisa dilakukan Trudy.</div></li>
+    <li><div><strong>ap3.0:</strong> Alice kirim password → Gagal: Playback attack — Trudy record dan replay.</div></li>
+    <li><div><strong>ap4.0:</strong> Bob kirim nonce R. Alice enkripsi R dengan shared key → Bob tahu Alice "live". Tapi butuh shared key duluan.</div></li>
+    <li><div><strong>ap5.0:</strong> Pakai public key + nonce. Masih ada flaw: Man-in-the-Middle attack oleh Trudy.</div></li>
+    <li><div><strong>Solusi:</strong> Certification Authority (CA) yang bind public key ke identitas nyata. CA menandatangani sertifikat secara digital.</div></li>
+  </ul>
+
+  <div class="section-title">Digital Signatures & Hash Functions</div>
+  <ul class="key-list li-sec">
+    <li><div><strong>Digital Signature:</strong> Bob enkripsi pesan dengan private key-nya → hanya Bob yang bisa buat tanda tangan itu. Non-repudiation: Bob tidak bisa menyangkal.</div></li>
+    <li><div><strong>Hash Function:</strong> Konversi pesan besar → fixed-size "fingerprint" (H(m)). Satu arah — tidak bisa di-reverse. MD5 = 128-bit, SHA-1 = 160-bit.</div></li>
+    <li><div><strong>Praktis:</strong> Sign hash(m) bukan m langsung → lebih efisien. Disebut "message digest".</div></li>
+  </ul>
+
+  <div class="section-title">TLS & IPsec</div>
+  <div class="cards">
+    <div class="card red">
+      <div class="card-icon">🔐</div>
+      <h4>TLS (Transport Layer Security)</h4>
+      <p>Protokol di atas TCP. Dipakai HTTPS (port 443). Gabungan: confidentiality (enkripsi symmetric), integrity (hash), authentication (public key). TLS 1.3 pakai Diffie-Hellman untuk key exchange.</p>
+    </div>
+    <div class="card red">
+      <div class="card-icon">🛡️</div>
+      <h4>IPsec</h4>
+      <p>Enkripsi di level Network layer. Dua mode: Transport (enkripsi payload saja) & Tunnel (enkripsi seluruh datagram). Protokol: AH (integrity, no confidentiality) & ESP (lebih lengkap, termasuk confidentiality).</p>
+    </div>
+  </div>
+
+  <div class="section-title">Firewalls & IDS</div>
+  <div class="analogy red">
+    <div class="analogy-label">🏰 Analogi</div>
+    <strong>Firewall</strong> = Satpam di pintu masuk gedung yang cek ID kartu. <strong>IDS (Intrusion Detection System)</strong> = CCTV di dalam gedung yang memantau kalau ada yang berperilaku mencurigakan meski sudah masuk.
+  </div>
+  <ul class="key-list li-sec">
+    <li><div><strong>Stateless Packet Filter:</strong> Cek header tiap paket (IP, port, protocol) satu per satu. Tidak ingat koneksi sebelumnya. Bisa ditipu paket "nonsensical".</div></li>
+    <li><div><strong>Stateful Packet Filter:</strong> Ingat status koneksi TCP. Lebih cerdas — paket ACK tanpa koneksi sebelumnya = mencurigakan.</div></li>
+    <li><div><strong>Application Gateway:</strong> Filter di level aplikasi. Contoh: proxy server untuk Telnet, HTTP.</div></li>
+    <li><div><strong>IDS:</strong> Deep packet inspection — cek isi paket, bukan cuma header. Deteksi port scanning, DoS, dll.</div></li>
+  </ul>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>4 pilar: Confidentiality, Authentication, Integrity, Availability.</li>
+      <li>Symmetric = cepat tapi masalah key sharing. Asymmetric = lambat tapi aman untuk key exchange.</li>
+      <li>AES jauh lebih aman dari DES. RSA pakai bilangan prima besar.</li>
+      <li>Praktis: pakai RSA untuk tukar session key, lalu pakai AES untuk data.</li>
+      <li>Digital signature = enkripsi hash(m) dengan private key. Non-repudiation.</li>
+      <li>CA mengatasi masalah Man-in-the-Middle di ap5.0.</li>
+      <li>TLS = security di atas TCP. IPsec = security di network layer.</li>
+      <li>Firewall vs IDS: filter di pintu vs deteksi di dalam.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===================== CHAPTER 3: WIRELESS ===================== -->
+<div class="chapter" id="ch-wifi">
+  <div class="ch-header">
+    <div class="ch-num">03</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent3)">Wireless and Mobile Networks</h2>
+      <p>Elemen, protokol, dan tantangan jaringan nirkabel — dari WiFi sampai 5G.</p>
+    </div>
+  </div>
+
+  <div class="analogy teal">
+    <div class="analogy-label">📡 Analogi</div>
+    <strong>Wireless network seperti radio FM.</strong> Ada stasiun pemancar (base station/AP), dan ada pendengar (wireless host). Tapi bedanya — di wireless network, pendengar juga bisa kirim sinyal balik, dan banyak "pendengar" yang harus berbagi frekuensi yang sama tanpa tabrakan.
+  </div>
+
+  <div class="section-title">Elemen Jaringan Wireless</div>
+  <ul class="key-list li-teal">
+    <li><div><strong>Wireless Hosts:</strong> Laptop, smartphone, IoT. Bisa bergerak (mobile) atau diam. <em>Wireless ≠ mobile!</em></div></li>
+    <li><div><strong>Base Station:</strong> Terhubung ke wired network. Relay antara wired network & wireless hosts. Contoh: cell tower, 802.11 AP.</div></li>
+    <li><div><strong>Wireless Link:</strong> Menghubungkan host ke base station. Ada koordinasi multiple access.</div></li>
+    <li><div><strong>Infrastructure Mode:</strong> Host terhubung via base station → handoff saat pindah BS. <strong>Ad hoc mode:</strong> Tidak ada base station, peer-to-peer.</div></li>
+  </ul>
+
+  <div class="section-title">Tantangan Wireless (vs Wired)</div>
+  <div class="cards">
+    <div class="card teal">
+      <div class="card-icon">📉</div>
+      <h4>Decreased Signal Strength</h4>
+      <p>Sinyal radio melemah saat melewati materi (path loss). Makin jauh, makin lemah.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">📶</div>
+      <h4>Interference</h4>
+      <p>Frekuensi 2.4 GHz dipakai banyak perangkat (WiFi, microwave, motor). Saling gangu satu sama lain.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">🔁</div>
+      <h4>Multipath Propagation</h4>
+      <p>Sinyal radio memantul dari objek/tanah → sampai di tujuan pada waktu sedikit berbeda (ghosting).</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">👻</div>
+      <h4>Hidden Terminal Problem</h4>
+      <p>A dan C tidak bisa saling dengar tapi keduanya kirim ke B sekaligus → collision di B tapi A & C tidak tahu!</p>
+    </div>
+  </div>
+
+  <div class="section-title">IEEE 802.11 WiFi</div>
+  <ul class="key-list li-teal">
+    <li><div><strong>CSMA/CA (Collision Avoidance):</strong> Berbeda dari wired yang pakai CSMA/CD. Wireless pakai CA karena collision tidak bisa dideteksi. Sebelum kirim, tunggu DIFS, lalu random backoff.</div></li>
+    <li><div><strong>RTS/CTS:</strong> Sender kirim Request-to-Send kecil → AP balas Clear-to-Send → semua node lain tahu ada yang mau kirim, diam dulu. Solusi hidden terminal problem.</div></li>
+    <li><div><strong>Association:</strong> Host scan channel, dengar beacon frames (berisi SSID & MAC AP), pilih AP, autentikasi, dapat IP via DHCP.</div></li>
+    <li><div><strong>Rate Adaptation:</strong> AP & mobile dinamis ubah transmission rate sesuai SNR (Signal-to-Noise Ratio). Jauh dari AP → SNR rendah → pakai rate lebih rendah.</div></li>
+  </ul>
+
+  <table class="compare-table">
+    <tr><th>Standar</th><th>Tahun</th><th>Max Rate</th><th>Frekuensi</th></tr>
+    <tr><td>802.11b</td><td>1999</td><td>11 Mbps</td><td>2.4 GHz</td></tr>
+    <tr><td>802.11g</td><td>2003</td><td>54 Mbps</td><td>2.4 GHz</td></tr>
+    <tr><td>802.11n (WiFi 4)</td><td>2009</td><td>600 Mbps</td><td>2.4 & 5 GHz</td></tr>
+    <tr><td>802.11ac (WiFi 5)</td><td>2013</td><td>3.47 Gbps</td><td>5 GHz</td></tr>
+    <tr><td>802.11ax (WiFi 6)</td><td>2020</td><td>14 Gbps</td><td>2.4 & 5 GHz</td></tr>
+  </table>
+
+  <div class="section-title">4G LTE Architecture</div>
+  <div class="cards">
+    <div class="card teal">
+      <div class="card-icon">📱</div>
+      <h4>UE (User Equipment)</h4>
+      <p>Perangkat dengan SIM card yang menyimpan IMSI (64-bit identity). Smartphone, tablet, IoT.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">📡</div>
+      <h4>eNode-B (Base Station)</h4>
+      <p>Kelola radio resources di area cakupannya. Koordinasi handover dengan BS tetangga. Lebih aktif dari WiFi AP.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">🔑</div>
+      <h4>MME (Mobility Management Entity)</h4>
+      <p>Otentikasi device, kelola handover antar sel, setup tunnel untuk data path.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">🏠</div>
+      <h4>HSS (Home Subscriber Service)</h4>
+      <p>Database identitas & layanan pelanggan. Authenticator utama — tahu siapa kamu dan apa layanan yang kamu bayar.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Mobility: Indirect vs Direct Routing</div>
+  <div class="analogy teal">
+    <div class="analogy-label">🏠 Analogi Indirect Routing</div>
+    <strong>Indirect routing</strong> seperti kirim surat ke teman yang sedang merantau melalui rumah orang tuanya. Surat selalu ke alamat rumah orang tua dulu, baru diteruskan ke lokasi teman sebenarnya. Tidak efisien, tapi transparan — pengirim tidak perlu tahu si teman lagi di mana.
+  </div>
+
+  <ul class="key-list li-teal">
+    <li><div><strong>Indirect Routing:</strong> Data ke home network → diteruskan ke visited network. Transparan bagi pengirim tapi ada "triangle routing" yang tidak efisien.</div></li>
+    <li><div><strong>Direct Routing:</strong> Pengirim tanya home HSS di mana lokasi mobile, lalu kirim langsung. Lebih efisien tapi tidak transparan.</div></li>
+    <li><div><strong>Handover (Handoff):</strong> Mobile pindah dari satu BS ke BS lain. Source BS kasih tau target BS, target BS pre-alokasi slot, lalu MME update tunnel endpoint ke target BS.</div></li>
+  </ul>
+
+  <div class="section-title">4G vs 5G</div>
+  <table class="compare-table">
+    <tr><th>Aspek</th><th>4G LTE</th><th>5G</th></tr>
+    <tr><td>Peak bitrate</td><td>100's Mbps</td><td>10x lipat 4G</td></tr>
+    <tr><td>Latency</td><td>Tinggi</td><td>10x lebih rendah</td></tr>
+    <tr><td>Frekuensi</td><td>Sub-6 GHz</td><td>FR1 (sub-6 GHz) + FR2 (mmWave 24-52 GHz)</td></tr>
+    <tr><td>IMSI</td><td>Dikirim cleartext ke BS</td><td>Dienkripsi dengan public key</td></tr>
+    <tr><td>Auth decision</td><td>Di visited network (MME)</td><td>Di home network</td></tr>
+    <tr><td>Sel ukuran</td><td>Besar</td><td>Pico-cells 10-100m (lebih banyak BS)</td></tr>
+  </table>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>Wireless ≠ mobile. Wireless host bisa statis, mobile bisa pakai kabel.</li>
+      <li>Tantangan utama: path loss, interference, multipath, hidden terminal.</li>
+      <li>802.11 pakai CSMA/CA (bukan CD). RTS/CTS solusi hidden terminal.</li>
+      <li>4G: UE → eNode-B → S-GW → P-GW → Internet. MME untuk kontrol, HSS untuk identitas.</li>
+      <li>Indirect routing: transparan tapi "triangle routing". Direct routing: efisien tapi tidak transparan.</li>
+      <li>5G lebih cepat, latensi rendah, enkripsi IMSI, keputusan auth di home network.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===================== CHAPTER 4: CLOUD ===================== -->
+<div class="chapter" id="ch-cloud">
+  <div class="ch-header">
+    <div class="ch-num">04</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent4)">Cloud Computing</h2>
+      <p>Model komputasi yang menyediakan resource IT sesuai kebutuhan melalui internet — bayar sesuai pakai.</p>
+    </div>
+  </div>
+
+  <div class="analogy gold">
+    <div class="analogy-label">💡 Analogi</div>
+    <strong>Cloud computing seperti PLN (listrik).</strong> Kamu tidak perlu beli generator sendiri, tidak perlu perbaiki jika rusak, dan kamu bayar sesuai yang kamu pakai (kwh). John McCarthy sudah prediksi ini di tahun 1961: "computing may someday be organized as a public utility." Dan terbukti!
+  </div>
+
+  <div class="section-title">Sejarah Singkat</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1961</div>
+      <div>John McCarthy prediksi computing sebagai public utility seperti telepon.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1969</div>
+      <div>Leonard Kleinrock (ARPANET): jaringan komputer akan jadi infrastruktur seperti utilitas publik.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1999</div>
+      <div>Salesforce.com: pionir Software as a Service (SaaS) untuk enterprise.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2006</div>
+      <div>Amazon Web Services (AWS) launch — storage, compute, business functions sebagai layanan.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Definisi NIST (yang paling penting!)</div>
+  <div class="analogy gold">
+    <div class="analogy-label">📖 Definisi</div>
+    Cloud = model untuk akses jaringan <strong>ubiquitous, convenient, on-demand</strong> ke shared pool of configurable computing resources (networks, servers, storage, apps, services) yang bisa <strong>rapidly provisioned and released</strong> dengan minimal management effort.<br><br>
+    Terdiri dari: <strong>5 karakteristik + 3 service models + 4 deployment models.</strong>
+  </div>
+
+  <div class="section-title">5 Karakteristik Cloud</div>
+  <div class="cards">
+    <div class="card gold">
+      <div class="card-icon">🎯</div>
+      <h4>On-Demand Usage</h4>
+      <p>Self-service. Tidak perlu telepon provider. Langsung provision sendiri, otomatis berjalan.</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">🌍</div>
+      <h4>Ubiquitous Access</h4>
+      <p>Bisa diakses dari mana saja, kapan saja, perangkat apa saja (laptop, HP, tablet).</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">👥</div>
+      <h4>Multitenancy</h4>
+      <p>Satu instance resource melayani banyak consumer (tenant) yang terisolasi satu sama lain. Efisien via resource pooling.</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">📈</div>
+      <h4>Elasticity</h4>
+      <p>Scale up/down secara otomatis sesuai demand runtime. Bayar saat butuh, lepas saat tidak butuh.</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">📊</div>
+      <h4>Measured Usage</h4>
+      <p>Pakai berapa, bayar sebanyak itu (pay-as-you-go). Semua terukur dan terpantau.</p>
+    </div>
+  </div>
+  <ul class="key-list li-gold">
+    <li><div><strong>Resiliency (bonus):</strong> Redundant IT resources di lokasi berbeda. Kalau satu cloud down, failover otomatis ke cloud lain.</div></li>
+    <li><div><strong>Horizontal Scaling (Scale Out/In):</strong> Tambah/kurangi jumlah instance yang identik. Lebih umum di cloud.</div></li>
+    <li><div><strong>Vertical Scaling (Scale Up/Down):</strong> Ganti instance dengan yang lebih kuat/lemah. Butuh downtime, kurang umum.</div></li>
+  </ul>
+
+  <div class="section-title">3 Service Models (Delivery Models)</div>
+  <div class="analogy gold">
+    <div class="analogy-label">🍕 Analogi Pizza</div>
+    <strong>IaaS</strong> = kamu beli bahan-bahan pizza sendiri dan masak sendiri di dapur sewa.<br>
+    <strong>PaaS</strong> = dapur sudah tersedia lengkap dengan oven dan alat. Kamu tinggal bawa bahan dan masak.<br>
+    <strong>SaaS</strong> = pizza sudah jadi, tinggal makan. Tidak perlu tahu resepnya.
+  </div>
+  <table class="compare-table">
+    <tr><th>Model</th><th>Apa yang Dikelola Provider</th><th>Apa yang Dikelola User</th><th>Contoh</th></tr>
+    <tr><td><strong>IaaS</strong></td><td>Hardware, networking, virtualization</td><td>OS, runtime, apps, data</td><td>AWS EC2, Google Compute Engine</td></tr>
+    <tr><td><strong>PaaS</strong></td><td>Infrastructure + OS + runtime + middleware</td><td>Applications + data</td><td>Google App Engine, Heroku</td></tr>
+    <tr><td><strong>SaaS</strong></td><td>Semua! Termasuk aplikasinya</td><td>Cuma konfigurasi & data user</td><td>Gmail, Google Docs, Salesforce</td></tr>
+  </table>
+
+  <div class="section-title">4 Deployment Models</div>
+  <div class="cards">
+    <div class="card gold">
+      <div class="card-icon">🌐</div>
+      <h4>Public Cloud</h4>
+      <p>Milik provider, diakses publik via internet. Bayar atau monetisasi iklan. Contoh: AWS, Azure, GCP.</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">🔒</div>
+      <h4>Private Cloud</h4>
+      <p>Dimiliki & digunakan satu organisasi saja. Lebih aman dan control penuh, tapi lebih mahal.</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">🔀</div>
+      <h4>Hybrid Cloud</h4>
+      <p>Gabungan public + private. Data sensitif di private, yang tidak sensitif di public. Kompleks untuk dikelola.</p>
+    </div>
+    <div class="card gold">
+      <div class="card-icon">🌐🌐</div>
+      <h4>Multicloud</h4>
+      <p>Pakai layanan dari beberapa cloud provider berbeda. Hindari vendor lock-in, gunakan best-of-breed services.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Risiko dan Tantangan Cloud</div>
+  <ul class="key-list li-gold">
+    <li><div><strong>Overlapping Trust Boundaries:</strong> Tanggung jawab keamanan data dibagi antara cloud provider dan consumer. Rawan celah di "sambungan" keduanya.</div></li>
+    <li><div><strong>Shared Security Responsibility:</strong> Data milik consumer, tapi infrastruktur milik provider. Siapa bertanggung jawab jika terjadi breach?</div></li>
+    <li><div><strong>Limited Portability:</strong> Pindah dari satu cloud provider ke lain susah karena beda teknologi proprietary. Vendor lock-in.</div></li>
+    <li><div><strong>Multiregional Compliance:</strong> Data center bisa di negara lain. Ada regulasi soal data harus disimpan di negara tertentu.</div></li>
+    <li><div><strong>Cost Overruns:</strong> Tanpa governance yang baik, biaya cloud bisa meledak. Pay-as-you-go bisa jadi jebakan kalau tidak dipantau.</div></li>
+  </ul>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>5 karakteristik NIST: On-demand, Ubiquitous, Multitenancy, Elasticity, Measured Usage.</li>
+      <li>IaaS = infrastruktur saja. PaaS = platform siap pakai. SaaS = software siap pakai.</li>
+      <li>4 deployment: Public, Private, Hybrid, Multicloud.</li>
+      <li>Horizontal scaling (out/in) lebih umum di cloud vs Vertical scaling (up/down).</li>
+      <li>Cloud provider ≠ bertanggung jawab penuh atas keamanan data. Shared responsibility.</li>
+      <li>Resiliency = redundant resource di berbagai lokasi untuk failover otomatis.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===================== CHAPTER 5: IoT ===================== -->
+<div class="chapter" id="ch-iot">
+  <div class="ch-header">
+    <div class="ch-num">05</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent5)">Internet of Things (IoT)</h2>
+      <p>Jaringan objek fisik yang saling terhubung dan bisa "berkomunikasi" lewat internet.</p>
+    </div>
+  </div>
+
+  <div class="analogy blue">
+    <div class="analogy-label">🌍 Analogi</div>
+    <strong>IoT itu seperti dunia yang punya "syaraf".</strong> Setiap benda (kulkas, lampu, motor, jantung pasien) adalah sensor yang merasakan dunia fisik. Otak (cloud/AI) mengolah datanya. Dan efektornya (actuator, alarm, pompa) mengambil tindakan. Dunia fisik dan digital jadi satu kesatuan yang hidup.
+  </div>
+
+  <div class="section-title">Sejarah & Definisi</div>
+  <ul class="key-list li-blue">
+    <li><div><strong>1982:</strong> Mesin Coca-Cola di Carnegie Mellon — device pertama yang terhubung internet! Bisa lapor persediaan dan suhu minuman secara remote.</div></li>
+    <li><div><strong>1991:</strong> Mark Weiser memperkenalkan konsep "ubiquitous computing" — komputer menyatu dengan lingkungan.</div></li>
+    <li><div><strong>1999:</strong> Kevin Ashton menciptakan istilah "Internet of Things" saat bekerja dengan RFID di MIT.</div></li>
+    <li><div><strong>2002:</strong> Forbes pertama kali gunakan istilah "Internet of Things" secara resmi.</div></li>
+  </ul>
+
+  <div class="section-title">IoT vs Teknologi Terkait</div>
+  <table class="compare-table">
+    <tr><th>Teknologi</th><th>Perbedaan utama dengan IoT</th></tr>
+    <tr><td><strong>M2M (Machine-to-Machine)</strong></td><td>Komunikasi point-to-point, biasanya pakai jaringan cellular tertutup. IoT lebih luas, pakai internet terbuka.</td></tr>
+    <tr><td><strong>WSN (Wireless Sensor Network)</strong></td><td>Fokus ke sensor, belum tentu terhubung ke internet. IoT menghubungkan ke layanan cloud dan analytics.</td></tr>
+    <tr><td><strong>CPS (Cyber-Physical System)</strong></td><td>Lebih ke integrasi komputasi dengan proses fisik. IoT lebih ke connectivity dan identification.</td></tr>
+    <tr><td><strong>Embedded System</strong></td><td>Sistem komputer dalam perangkat fisik, belum tentu terhubung internet. IoT pasti terhubung.</td></tr>
+  </table>
+
+  <div class="section-title">5 Karakteristik Utama IoT</div>
+  <div class="cards">
+    <div class="card blue">
+      <div class="card-icon">📡</div>
+      <h4>Sensor Data Acquisition</h4>
+      <p>Sensor kumpulkan data lingkungan dan kirim ke cloud untuk storage & analytics.</p>
+    </div>
+    <div class="card blue">
+      <div class="card-icon">🔗</div>
+      <h4>Connectivity</h4>
+      <p>Interkoneksi fisik dan virtual via infrastruktur komunikasi global (wired & wireless).</p>
+    </div>
+    <div class="card blue">
+      <div class="card-icon">🧠</div>
+      <h4>Device Heterogeneity & Intelligence</h4>
+      <p>Device dari hardware berbeda-beda bisa interoperate. Ada ambient intelligence di hardware/software level.</p>
+    </div>
+    <div class="card blue">
+      <div class="card-icon">📈</div>
+      <h4>Scalability</h4>
+      <p>Miliaran device bisa terhubung. Interaksi bergeser dari human-to-device ke device-to-device.</p>
+    </div>
+    <div class="card blue">
+      <div class="card-icon">🔒</div>
+      <h4>Security</h4>
+      <p>Keamanan harus ada di level jaringan DAN di perangkat akhir (end-device).</p>
+    </div>
+  </div>
+
+  <div class="section-title">Enabling Technologies IoT</div>
+  <ul class="key-list li-blue">
+    <li><div><strong>Identification:</strong> Setiap "thing" punya identitas unik. Metode: UCode, EPC, QR Code, UPC. IPv6 untuk global addressing (128-bit = cukup untuk semua atom di bumi, hampir).</div></li>
+    <li><div><strong>Sensors & Actuators:</strong> Sensor = ubah input fisik → data digital (suhu, cahaya, tekanan). Actuator = ubah sinyal listrik → aksi fisik (motor, pompa, lampu).</div></li>
+    <li><div><strong>RFID (Radio Frequency Identification):</strong> Identifikasi objek tanpa kontak fisik via gelombang radio. Tag (di objek) ↔ Reader. Dua tipe: Active tag (punya baterai, jangkauan jauh) & Passive tag (tenaga dari sinyal reader, murah).</div></li>
+    <li><div><strong>WSN (Wireless Sensor Network):</strong> Jaringan sensor yang kumpulkan & kirim data ke tujuan (sink/cloud). Pakai IEEE 802.15.4 untuk low-power communication.</div></li>
+    <li><div><strong>Connectivity:</strong> WiFi, Bluetooth, ZigBee, LTE untuk wireless. USB, Ethernet untuk wired. Pilih berdasarkan range, data rate, power consumption.</div></li>
+  </ul>
+
+  <div class="section-title">IoT Information Value Loop</div>
+  <div class="flow">
+    <span class="flow-step">Data Creation (Sensor)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Communication</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Aggregation</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Analysis (AI)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Action/Goal</span>
+  </div>
+
+  <div class="section-title">IoT Architecture (3-Layer)</div>
+  <ul class="key-list li-blue">
+    <li><div><strong>Perception Layer (bawah):</strong> Sensor & perangkat fisik yang kumpulkan data dari lingkungan.</div></li>
+    <li><div><strong>Network Layer (tengah):</strong> Transmisi data dari perangkat ke cloud/data center.</div></li>
+    <li><div><strong>Application Layer (atas):</strong> Proses data dan komunikasi dengan end-user. Smart home, healthcare, dll.</div></li>
+  </ul>
+
+  <div class="section-title">Augmented Intelligence vs Augmented Behavior</div>
+  <div class="cards">
+    <div class="card blue">
+      <div class="card-icon">🤖</div>
+      <h4>Augmented Intelligence</h4>
+      <p>AI yang menganalisis data IoT. Tiga jenis: Descriptive (apa yang terjadi?), Predictive (apa yang akan terjadi?), Prescriptive (apa yang harus dilakukan?).</p>
+    </div>
+    <div class="card blue">
+      <div class="card-icon">⚙️</div>
+      <h4>Augmented Behavior</h4>
+      <p>Tindakan nyata yang diambil berdasarkan analisis. M2M (mesin ke mesin otomatis) & M2H (mesin ke manusia). Dari data science ke behavioral science.</p>
+    </div>
+  </div>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>Kevin Ashton coined "IoT" di 1999. Mulai dari Coke machine yang terhubung internet di 1982.</li>
+      <li>IoT ≠ M2M ≠ WSN ≠ CPS. Tapi IoT mengintegrasikan konsep dari semua teknologi tersebut.</li>
+      <li>5 karakteristik: Sensor, Connectivity, Heterogeneity, Scalability, Security.</li>
+      <li>RFID: Active tag (punya baterai, jauh) vs Passive tag (tenaga dari reader, murah).</li>
+      <li>3-layer arch: Perception → Network → Application.</li>
+      <li>Augmented Intelligence = analisis data. Augmented Behavior = tindakan nyata.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===================== CHAPTER 6: BLOCKCHAIN ===================== -->
+<div class="chapter" id="ch-bc">
+  <div class="ch-header">
+    <div class="ch-num">06</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent6)">Blockchain</h2>
+      <p>Distributed ledger yang terdesentralisasi, immutable, dan aman secara kriptografi.</p>
+    </div>
+  </div>
+
+  <div class="analogy pink">
+    <div class="analogy-label">📒 Analogi</div>
+    <strong>Blockchain seperti buku rekening publik yang ribuan orang pegang salinannya.</strong> Kalau kamu mau catat transaksi baru, semua orang harus setuju (konsensus). Dan karena setiap halaman (block) nyambung ke halaman sebelumnya dengan "lem" kriptografi (hash), tidak bisa ada yang diam-diam merobek atau mengganti halaman lama tanpa semua orang tahu.
+  </div>
+
+  <div class="section-title">Dari Ledger ke Blockchain</div>
+  <ul class="key-list li-pink">
+    <li><div><strong>Ledger Tradisional:</strong> Sistem pencatatan transaksi. Ada sejak era Babilonia. Butuh kepercayaan pada pihak ketiga (bank, pemerintah).</div></li>
+    <li><div><strong>DLT (Distributed Ledger Technology):</strong> Ledger yang bisa diakses, diverifikasi, dan diupdate secara simultan oleh banyak pihak dalam jaringan. Triple-entry accounting: debit + kredit + catatan di immutable ledger.</div></li>
+    <li><div><strong>Blockchain:</strong> Bentuk DLT paling populer. Transaksi disimpan dalam block-block yang saling terhubung secara kriptografis. Terdesentralisasi — tidak ada satu otoritas pun yang mengontrol.</div></li>
+  </ul>
+
+  <div class="section-title">Sejarah Singkat</div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1991</div>
+      <div>Stuart Haber & W. Scott Stornetta memperkenalkan konsep blockchain untuk timestamp dokumen.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">2008</div>
+      <div>Satoshi Nakamoto mempopulerkan blockchain untuk Bitcoin sebagai public transaction ledger.</div>
+    </div>
+  </div>
+
+  <div class="section-title">Anatomi Block</div>
+  <div class="code-block">
+BLOCK HEADER
+├── Block Version       → aturan validasi yang digunakan
+├── Merkle Tree Root Hash → hash dari semua transaksi dalam block
+├── Timestamp           → waktu pembuatan block
+├── nBits               → target threshold valid hash
+├── Nonce               → angka yang divariasikan miner saat mining
+└── Parent Block Hash   → hash dari block sebelumnya (link antar block!)
+
+BLOCK BODY
+├── Transaction Hash
+├── Transaction Root
+├── State Hash
+└── State Root
+  </div>
+  <p style="font-size:14px;color:var(--muted);margin-top:8px;"><strong style="color:var(--text)">Genesis Block</strong> = block pertama, tidak punya parent block. "Awal dari segalanya."</p>
+
+  <div class="section-title">Hash Function & Enkripsi</div>
+  <ul class="key-list li-pink">
+    <li><div><strong>Hash Function:</strong> Input → output unik (fixed-length string). Satu arah (tidak bisa di-reverse). Avalanche effect: perubahan kecil input → perubahan total output. Dipakai di setiap block untuk integritas.</div></li>
+    <li><div><strong>Simple Hash:</strong> Brute force. Untuk dokumen dengan ukuran tetap (block header).</div></li>
+    <li><div><strong>Merkle Tree Hash:</strong> Data diatur sebagai binary tree, hash dilakukan berpasangan. Efisien untuk data besar (O(log n)). Dipakai untuk transaction integrity di block body.</div></li>
+    <li><div><strong>ECC (Elliptic Curve Cryptography):</strong> Preferred di blockchain (vs RSA). 256-bit ECC = security setara 3072-bit RSA. Lebih efisien.</div></li>
+    <li><div><strong>Decentralized Identifier (DID):</strong> Identitas pseudo-anonim yang diamankan private key. Satu orang bisa punya banyak DID. Terkait dengan verifiable credentials.</div></li>
+  </ul>
+
+  <div class="section-title">Ekosistem Blockchain</div>
+  <div class="cards">
+    <div class="card pink">
+      <div class="card-icon">💻</div>
+      <h4>Nodes</h4>
+      <p>Komputer yang menyimpan salinan ledger. Memverifikasi & meneruskan transaksi. Transaksi baru harus disetujui mayoritas node.</p>
+    </div>
+    <div class="card pink">
+      <div class="card-icon">⛏️</div>
+      <h4>Miners</h4>
+      <p>Node khusus yang buat block baru dengan menyelesaikan puzzle kriptografi (cari nonce). Mendapat reward digital sebagai insentif.</p>
+    </div>
+    <div class="card pink">
+      <div class="card-icon">👛</div>
+      <h4>Wallets</h4>
+      <p>Kelola private & public keys. Deterministic wallet: bisa recover dari seed phrase. Non-deterministic: tidak ada recovery jika private key hilang.</p>
+    </div>
+    <div class="card pink">
+      <div class="card-icon">📜</div>
+      <h4>Smart Contracts</h4>
+      <p>Program yang otomatis eksekusi terms & conditions saat kondisi terpenuhi. Contoh: transfer otomatis saat barang diterima.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Tipe Blockchain</div>
+  <table class="compare-table">
+    <tr><th>Tipe</th><th>Siapa bisa join</th><th>Siapa bisa baca</th><th>Sentralisasi</th><th>Contoh</th></tr>
+    <tr><td><strong>Public (Permissionless)</strong></td><td>Siapa saja</td><td>Siapa saja</td><td>Sangat desentralisasi</td><td>Bitcoin, Ethereum</td></tr>
+    <tr><td><strong>Private (Permissioned)</strong></td><td>Diundang saja</td><td>Terbatas</td><td>Lebih tersentralisasi</td><td>Hyperledger Fabric</td></tr>
+    <tr><td><strong>Consortium</strong></td><td>Grup organisasi terpilih</td><td>Terbatas</td><td>Sebagian desentralisasi</td><td>R3 Corda</td></tr>
+  </table>
+
+  <div class="section-title">Konsensus Mechanism</div>
+  <div class="analogy pink">
+    <div class="analogy-label">🏰 Analogi Byzantine Generals Problem</div>
+    Beberapa jenderal harus sepakat untuk serang benteng secara serentak. Tapi komunikasi bisa dicegat musuh. Bagaimana mereka yakin semua jenderal terima pesan yang sama? Blockchain menyelesaikan ini dengan <strong>Proof-of-Work</strong>: jika semua peserta mengerjakan puzzle matematika, solusi pertama yang valid menandakan pesan sudah diterima semua orang.
+  </div>
+  <ul class="key-list li-pink">
+    <li><div><strong>Proof-of-Work (PoW):</strong> Miner berlomba cari nonce. Pertama yang solve dapat reward. Butuh banyak listrik tapi aman (51% attack butuh hardware luarbiasa mahal).</div></li>
+    <li><div><strong>Proof-of-Stake (PoS):</strong> Validator dipilih berdasarkan jumlah cryptocurrency yang mereka "stake" (jaminkan). Lebih hemat energi dari PoW.</div></li>
+    <li><div><strong>Delegated PoS:</strong> Token holders pilih "delegates" yang lakukan validasi. Lebih skalabel.</div></li>
+  </ul>
+
+  <div class="section-title">Evolusi Blockchain</div>
+  <ul class="key-list li-pink">
+    <li><div><strong>Blockchain 1.0:</strong> Digital currency, cryptocurrency, gambling. Bitcoin.</div></li>
+    <li><div><strong>Blockchain 2.0:</strong> Smart contracts, dApps, DAO (Decentralized Autonomous Organization). Ethereum.</div></li>
+    <li><div><strong>Blockchain 3.0:</strong> Meluas ke education, health, science, transportation, logistics.</div></li>
+    <li><div><strong>Blockchain 4.0:</strong> Ekosistem business-friendly untuk "world of commons".</div></li>
+  </ul>
+
+  <div class="section-title">Skalabilitas — Masalah Utama</div>
+  <ul class="key-list li-pink">
+    <li><div><strong>Masalah:</strong> Bitcoin hanya bisa proses ~7 transaksi/detik. Visa bisa 24,000/detik. Block size kecil + waktu mining 10 menit = bottleneck.</div></li>
+    <li><div><strong>Solusi 1 — Storage Optimization:</strong> Delete transaksi lama yang tidak relevan agar ledger lebih ringan.</div></li>
+    <li><div><strong>Solusi 2 — Bitcoin-NG:</strong> Pisahkan block jadi dua: Key block (pilih leader/miner) + Microblocks (transaksi saja). Throughput jauh lebih tinggi.</div></li>
+  </ul>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>Blockchain = DLT paling populer. Terdesentralisasi, immutable, consensus-based.</li>
+      <li>Setiap block berisi header (dengan parent hash) + body (transaksi). Genesis block = block pertama.</li>
+      <li>Hash function = satu arah, avalanche effect. Merkle Tree = efisien untuk banyak transaksi.</li>
+      <li>ECC > RSA di blockchain (256-bit ECC ≈ 3072-bit RSA dalam keamanan).</li>
+      <li>3 tipe: Public (terbuka) → Consortium (semi) → Private (tertutup).</li>
+      <li>PoW = puzzle mining, aman tapi boros energi. PoS = jaminkan aset, lebih efisien.</li>
+      <li>Evolusi: 1.0 (currency) → 2.0 (smart contracts) → 3.0 (segala sektor) → 4.0 (business ecosystem).</li>
+      <li>Skalabilitas masalah utama blockchain. Bitcoin-NG = solusi dengan key block + microblocks.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Chapter navigation buttons -->
+<div class="ch-nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled>← Bab Sebelumnya</button>
+  <span id="chapterIndicator" style="font-family:var(--mono);font-size:12px;color:var(--muted);align-self:center">01 / 06</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">Bab Berikutnya →</button>
+</div>
+
+</div><!-- end .main -->
+
+<script>
+  const chapters = ['os','sec','wifi','cloud','iot','bc'];
+  const colors = ['os','sec','wifi','cloud','iot','bc'];
+  let current = 0;
+
+  function showChapter(id, btn) {
+    document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('ch-' + id).classList.add('active');
+    btn.classList.add('active');
+    current = chapters.indexOf(id);
+    updateNav();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function navigate(dir) {
+    current = Math.max(0, Math.min(chapters.length - 1, current + dir));
+    const id = chapters[current];
+    const btn = document.querySelector('[data-color="' + colors[current] + '"]');
+    showChapter(id, btn);
+  }
+
+  function updateNav() {
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === chapters.length - 1;
+    document.getElementById('chapterIndicator').textContent = 
+      String(current + 1).padStart(2,'0') + ' / ' + String(chapters.length).padStart(2,'0');
+  }
+
+  updateNav();
+</script>
+
+</body>
+</html>
