@@ -96,6 +96,7 @@
   .tab-btn[data-color="cloud"].active { background: #1f1a0a; border-color: var(--accent4); color: var(--accent4); }
   .tab-btn[data-color="iot"].active { background: #0a1525; border-color: var(--accent5); color: var(--accent5); }
   .tab-btn[data-color="bc"].active { background: #1f0f1a; border-color: var(--accent6); color: var(--accent6); }
+  .tab-btn[data-color="vm"].active { background: #0f1a1f; border-color: var(--accent3); color: var(--accent3); }
 
   /* Main layout */
   .main {
@@ -426,6 +427,7 @@
     <span class="tag gold">Cloud Computing</span>
     <span class="tag blue">IoT</span>
     <span class="tag pink">Blockchain</span>
+    <span class="tag teal">Blockchain</span>
   </div>
 </div>
 
@@ -436,6 +438,7 @@
   <button class="tab-btn" data-color="cloud" onclick="showChapter('cloud',this)">04 · Cloud</button>
   <button class="tab-btn" data-color="iot" onclick="showChapter('iot',this)">05 · IoT</button>
   <button class="tab-btn" data-color="bc" onclick="showChapter('bc',this)">06 · Blockchain</button>
+  <button class="tab-btn" data-color="vm" onclick="showChapter('vm',this)">07 · VM</button>
 </div>
 
 <div class="main">
@@ -1175,6 +1178,140 @@ BLOCK BODY
       <li>PoW = puzzle mining, aman tapi boros energi. PoS = jaminkan aset, lebih efisien.</li>
       <li>Evolusi: 1.0 (currency) → 2.0 (smart contracts) → 3.0 (segala sektor) → 4.0 (business ecosystem).</li>
       <li>Skalabilitas masalah utama blockchain. Bitcoin-NG = solusi dengan key block + microblocks.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ===================== CHAPTER 7: VIRTUAL MACHINE ===================== -->
+<div class="chapter" id="ch-vm">
+  <div class="ch-header">
+    <div class="ch-num">07</div>
+    <div class="ch-info">
+      <h2 style="color:var(--accent3)">Virtual Machines</h2>
+      <p>Abstraksi hardware fisik menjadi beberapa environment eksekusi yang berjalan secara bersamaan.</p>
+    </div>
+  </div>
+
+  <div class="analogy teal">
+    <div class="analogy-label">🏢 Analogi</div>
+    <strong>VM seperti apartemen di gedung yang sama.</strong> Gedungnya = hardware fisik. Pengelola gedung (VMM/Hypervisor) membagi gedung jadi unit-unit apartemen (VM) yang masing-masing terasa seperti "rumah sendiri" — punya dapur, kamar, listrik sendiri. Penghuni satu apartemen tidak bisa masuk apartemen lain, dan kalau satu terbakar, yang lain aman.
+  </div>
+
+  <div class="section-title">Konsep Utama</div>
+  <ul class="key-list li-teal">
+    <li><div><strong>Host:</strong> Hardware fisik yang mendasari semuanya.</div></li>
+    <li><div><strong>VMM / Hypervisor:</strong> Software yang menciptakan dan menjalankan VM. Menyediakan interface yang identik dengan hardware asli ke setiap guest.</div></li>
+    <li><div><strong>Guest:</strong> OS atau aplikasi yang berjalan di dalam VM, mendapat "salinan virtual" dari hardware.</div></li>
+    <li><div><strong>Ide utama:</strong> Satu mesin fisik bisa menjalankan banyak OS secara bersamaan, masing-masing di VM-nya sendiri.</div></li>
+  </ul>
+
+  <div class="section-title">Sejarah Singkat</div>
+  <ul class="key-list li-teal">
+    <li><div><strong>1972:</strong> Pertama muncul di IBM mainframe. Tujuan: banyak user berbagi sistem batch.</div></li>
+    <li><div><strong>Late 1990s:</strong> Intel CPU sudah cukup cepat → peneliti coba virtualisasi di PC biasa. Lahirlah Xen dan VMware.</div></li>
+  </ul>
+
+  <div class="section-title">Tipe-Tipe Hypervisor</div>
+  <div class="cards">
+    <div class="card teal">
+      <div class="card-icon">⚙️</div>
+      <h4>Type 0 — Hardware-based</h4>
+      <p>Diimplementasikan di firmware. OS tidak perlu modifikasi apapun. Tiap guest dapat dedicated hardware. Contoh: IBM LPARs, Oracle LDOMs.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">🖥️</div>
+      <h4>Type 1 — Bare-metal</h4>
+      <p>Berjalan langsung di hardware, tanpa OS host. Berjalan di kernel mode. Guest biasanya tidak tahu mereka di dalam VM. Contoh: VMware ESX, Citrix XenServer, Hyper-V, KVM.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">📦</div>
+      <h4>Type 2 — Hosted</h4>
+      <p>Berjalan sebagai aplikasi biasa di atas OS host. Host tidak tahu ada VM berjalan. Lebih mudah dipakai tapi performa lebih rendah. Contoh: VMware Workstation, VirtualBox, Parallels.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">🔧</div>
+      <h4>Paravirtualization</h4>
+      <p>VMM tidak menyediakan duplikat hardware persis — guest OS dimodifikasi untuk kerja sama langsung dengan VMM. Performa lebih baik. Contoh: Xen. Makin tidak relevan karena hardware support VM makin baik.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Varian Lain Virtualisasi</div>
+  <ul class="key-list li-teal">
+    <li><div><strong>Programming-environment virtualization:</strong> Tidak virtualisasi hardware nyata, tapi buat virtual system yang dioptimalkan. Contoh: <strong>Java Virtual Machine (JVM)</strong> dan Microsoft .NET. "Write once, run anywhere."</div></li>
+    <li><div><strong>Emulation:</strong> Jalankan aplikasi dari arsitektur CPU berbeda. Contoh: emulator game konsol di PC. Paling lambat — setiap instruksi harus ditranslasi.</div></li>
+    <li><div><strong>Application Containment:</strong> Bukan virtualisasi sejati, tapi isolasi aplikasi dari OS. Lebih ringan dari VM. Contoh: Docker containers, Oracle Solaris Zones, BSD Jails.</div></li>
+  </ul>
+
+  <div class="section-title">Manfaat dan Fitur VM</div>
+  <div class="cards">
+    <div class="card teal">
+      <div class="card-icon">🛡️</div>
+      <h4>Isolasi & Keamanan</h4>
+      <p>Host terlindungi dari VM. VM terlindungi dari satu sama lain. Virus di satu VM tidak menyebar ke VM lain.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">📸</div>
+      <h4>Snapshot</h4>
+      <p>Simpan state VM di titik tertentu. Bisa restore kapan saja. Sangat berguna untuk OS research dan testing.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">📋</div>
+      <h4>Cloning & Templating</h4>
+      <p>Duplikasi VM dengan copy file-nya. Template = buat OS+app VM sekali, deploy berkali-kali. Dasar dari cloud provisioning.</p>
+    </div>
+    <div class="card teal">
+      <div class="card-icon">✈️</div>
+      <h4>Live Migration</h4>
+      <p>Pindahkan VM yang sedang berjalan ke host lain TANPA interupsi! User tidak merasakan apa-apa. Kunci untuk cloud management dan maintenance.</p>
+    </div>
+  </div>
+
+  <div class="section-title">Komponen OS dalam Virtualisasi</div>
+  <ul class="key-list li-teal">
+    <li><div><strong>CPU Scheduling:</strong> VMM punya CPU fisik, guest punya vCPU. Kalau CPU tidak cukup → overcommitment. VMM pakai scheduling algorithm. Akibatnya: time-of-day clock di guest bisa tidak akurat.</div></li>
+    <li><div><strong>Memory Management:</strong> VMM bisa pakai double-paging (pindah halaman ke backing store), balloon memory manager (driver pseudo di guest untuk kelola alokasi), dan deduplication (halaman identik di beberapa VM di-share satu salinan saja).</div></li>
+    <li><div><strong>I/O:</strong> VMM bisa kasih akses langsung ke device, atau virtualkan via driver. Networking bisa via bridge (akses langsung) atau NAT (IP guest disembunyikan di belakang IP host).</div></li>
+    <li><div><strong>Storage:</strong> Type 1 simpan disk image di filesystem VMM. Type 2 simpan sebagai file biasa di host OS. Pindah file = pindah VM. P-to-V: konversi disk fisik ke format virtual.</div></li>
+  </ul>
+
+  <div class="section-title">Live Migration — Proses Lengkap</div>
+  <div class="flow">
+    <span class="flow-step">Source VMM hubungi Target VMM</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Target buat guest baru (VCPU dll)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Kirim read-only pages</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Kirim read-write pages (mark clean)</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Ulangi halaman dirty</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Freeze → kirim final state → Target start</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step">Source terminate guest</span>
+  </div>
+
+  <div class="section-title">VM vs Container</div>
+  <table class="compare-table">
+    <tr><th>Aspek</th><th>Virtual Machine</th><th>Container (Docker)</th></tr>
+    <tr><td>Isolasi</td><td>Level OS penuh (punya kernel sendiri)</td><td>Level proses (share kernel host)</td></tr>
+    <tr><td>Ukuran</td><td>GB (include full OS)</td><td>MB (hanya app + dependencies)</td></tr>
+    <tr><td>Boot time</td><td>Menit</td><td>Detik</td></tr>
+    <tr><td>Keamanan</td><td>Lebih terisolasi</td><td>Sedikit lebih rentan</td></tr>
+    <tr><td>Use case</td><td>Jalankan OS berbeda, cloud IaaS</td><td>Microservices, deployment cepat</td></tr>
+  </table>
+
+  <div class="recap">
+    <h3>⚡ Poin Kunci untuk Ujian</h3>
+    <ol>
+      <li>VM = abstraksi hardware jadi beberapa environment. Host (HW) + VMM (hypervisor) + Guest (OS).</li>
+      <li>Type 0 = firmware. Type 1 = bare-metal (langsung di HW). Type 2 = hosted (di atas OS).</li>
+      <li>Paravirtualization = guest OS dimodifikasi untuk performa lebih baik, bukan duplikat HW persis.</li>
+      <li>JVM = programming-environment virtualization. "Write once, run anywhere."</li>
+      <li>Container = bukan virtualisasi sejati, tapi isolasi aplikasi. Lebih ringan dari VM.</li>
+      <li>Live migration = pindah VM running ke host lain tanpa interupsi user.</li>
+      <li>Snapshot + Cloning + Live Migration → fondasi Cloud Computing.</li>
+      <li>Memory overcommitment diatasi dengan balloon memory manager + deduplication.</li>
     </ol>
   </div>
 </div>
